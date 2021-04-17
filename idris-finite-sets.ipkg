@@ -5,5 +5,7 @@ sourcedir = "src"
 
 modules =
     Functions,
-    List.Decidable,
-    Listable
+    Data.List.Decidable,
+    Data.List.Quantifiers,
+    Data.Fin.Extensions,
+    Finiteness
