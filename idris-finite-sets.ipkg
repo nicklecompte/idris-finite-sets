@@ -1,0 +1,9 @@
+package idris-finite-sets
+version = 0.0.1
+
+sourcedir = "src"
+
+modules =
+    Functions,
+    List.Decidable,
+    Listable
