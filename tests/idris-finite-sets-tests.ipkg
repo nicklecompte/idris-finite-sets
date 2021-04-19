@@ -1,0 +1,11 @@
+package idris-finite-sets-tests
+version = 0.0.1
+
+pkgs = idris-finite-sets
+
+modules =
+    TestFramework,
+    DecIn
+
+tests =
+    Tests.DecIn.smokeDecIn

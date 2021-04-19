@@ -18,5 +18,16 @@ The nice thing about Idris programs is that they generally do what they say on
 the tin. That said, this program is full of holes (both literal and conceptual),
 and should not be used for anything safety-or-career-critical.
 
-The code and text here are released under [CC0](https://creativecommons.org/publicdomain/zero/1.0/legalcode), see `COPYING` for more information.
+The code and text here are released under [CC0](https://creativecommons.org/publicdomain/zero/1.0/legalcode), 
+see `COPYING` for more information. The basic idea behind "copyright" of the 
+code or commentary in this repository is that the set theoretic and algebraic
+ideas used here are considerably older than I am, and that any "original" ideas
+are much more a consequence of limitations in Idris and the author's own ability
 
+That said, if you end up using this for anything serious, an acknowledgement 
+
+## Bibliography and acknowledgments
+
+- [Firsov and Uustalu, Dependently typed programming with finite sets](http://firsov.ee/finset/)
+- [Agda's finite-prover](https://github.com/agda/agda-finite-prover)
+- [Ligant-Ting Chen's Finite Sets in Cubical Agda](https://github.com/L-TChen/FiniteSets)

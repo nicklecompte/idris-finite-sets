@@ -1,4 +1,5 @@
 > module Tests.DecIn
+> import TestFramework
 > import Data.List
 > import Data.List.DecIn
 > %access export
