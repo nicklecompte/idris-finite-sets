@@ -1,12 +1,17 @@
-> module Data.List.Quantifiers
+> module Data.List.TypeEnumeration
 > import Data.List
 > import Functions
 > %access public export
 
+This module contains utilities for "enumerating a type" by placing all elements
+of that type into a list. It contains two basic quantifiers on a type `t` and a 
+list `xs : List t`:
 
-First we start with considering the following problem: given a type $t$ and a 
-list $xs \in \texttt{List} t$, how can we determine if $xs$ contains every 
-element of $t$? If this were the case, we would be able to construct a
+- `All {t} xs`, proofs that `xs` contains every element of `t`
+- `NoDupes {t} xs`, proofs that `xs` contains no duplicate elements of `t`
+
+First we start with `All {t} xs`: how can we determine if `xs` contains every 
+element of `t`? If this were the case, we would be able to construct a
 function $f_{xs} : (x:t) \rightarrow \texttt{Elem} x xs$.
 
 > ||| Proofs that a given list contains all possible elements of a given type.

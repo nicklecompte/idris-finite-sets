@@ -2,7 +2,7 @@
 > import Functions
 > import Data.Fin
 > import Data.List
-> import Data.List.Quantifiers
+> import Data.List.TypeEnumeration
 > import Data.Fin.Extensions
 
 
@@ -96,3 +96,26 @@ that these can be cleaned up considerably...
 
 > finSurjectiveIsListable : FinSurjective t -> Listable t
 > finSurjectiveIsListable (bound ** (surj ** pf)) = ?finSurjectiveIsListable_rhs_2
+
+Listability gives an upper bound on the cardinality of any given type considered 
+as sets. We can strengthen this by forbidding duplicates:
+
+> ListableNoDuplicate : (t: Type) -> Type
+> ListableNoDuplicate t = (xs : List t ** (All {t} xs, NoDupes {t} xs))
+
+Alternatively, we can strengthen FinSurjectivity by requring a bijection:
+
+> FinBijective : (t: Type) -> Type
+> FinBijective t  = (n:Nat ** (f : (t -> Fin n) ** Bijective f))
+
+These two notions are equivalent:
+
+> finBijToListNoDupes : {t:Type} -> FinBijective t -> ListableNoDuplicate t
+
+> listNoDupesToFinBij : {t:Type} -> ListableNoDuplicate t -> FinBijective t
+
+Actually, all four notions of finiteness are equivalent. The reason is that 
+listability implies decidable equality:
+
+> listableToDecEq : {t:Type} -> Listable t -> (x: t) -> (y : t) -> Dec (x = y)
+> listableToDecEq (xs **pf) x y = ?listableToDecEq_rhs

@@ -1,7 +1,7 @@
 > module Data.Fin.Extensions
 > import Data.Fin
 > import Data.List
-> import Data.List.Quantifiers
+> import Data.List.TypeEnumeration
 
 > embedNatAsFin : (n : Nat) -> (m : Nat) -> {pf: LT m n} -> Fin n
 > embedNatAsFin Z _ {pf=_} impossible
@@ -37,7 +37,7 @@
 > safeStrengthen {n=(S k)} FZ contra = FZ
 > safeStrengthen {n=(S k)} (FS x) contra = ?ssh_2
 
-> natToListFinIsAll : (n : Nat) -> (All (getLesserFins (last {n=n})))
+> natToListFinIsAll : (n : Nat) -> All (getLesserFins (last {n=n}))
 > natToListFinIsAll Z =  ?isAll
 > natToListFinIsAll (S k) = \f =>
 >   case (decEq f (last {n=(S k)})) of

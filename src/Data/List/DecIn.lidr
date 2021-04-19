@@ -1,6 +1,6 @@
-> module List.Decidable
+> module List.DecIn
 > import Data.List
-> 
+> %access public export
 
 A type can have decidable list membership:
 

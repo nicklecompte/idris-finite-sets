@@ -5,7 +5,11 @@ sourcedir = "src"
 
 modules =
     Functions,
-    Data.List.Decidable,
-    Data.List.Quantifiers,
+    Data.List.DecIn,
+    Data.List.TypeEnumeration,
     Data.Fin.Extensions,
-    Finiteness
+    Finiteness,
+    Tests.DecIn
+
+tests =
+    Tests.DecIn.smokeDecIn

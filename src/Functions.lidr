@@ -7,15 +7,15 @@ In this module we present types for basic proofs about functions between sets, s
 - quotienting by totality ("squashing")
 
 > ||| The type of proofs that a given function is injective. 
-> ||| A function $f: t -> u$ is injective if, given a proof that $f(x) = f(y)$,
-> ||| we can prove $x=y$. An implementation of `Injective f` is a function that
+> ||| A function `f: t -> u` is injective if, given a proof that `f x = f y`,
+> ||| we can prove `x=y`. An implementation of `Injective f` is a function that
 > ||| returns an `(x = y)` proof given an `(f x = f y)` proof.
 > Injective : {t,u:Type} -> (t -> u) -> Type
 > Injective f {t} = (x,y:t) -> (f x = f y) -> (x = y)
 
 > ||| The type of proofs that a given function is surjective. 
-> ||| A function $f: t -> u$ is injective if, given any $y\in u$, we can find 
-> ||| $x\in t$ and a proof $f(x)=y$. An implementation of `Surjective f` is a 
+> ||| A function `f: t -> u` is injective if, given any `y: u`, we can find 
+> ||| `x: t` with a proof `f x = y`. An implementation of `Surjective f` is a 
 > ||| function that returns a dependent pair `(x ** f x = y)`  given an 
 > ||| `(f x = f y)` proof. Note that there is no proof of uniqueness.
 > Surjective : {t,u:Type} -> (t -> u) -> Type
