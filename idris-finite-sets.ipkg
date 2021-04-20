@@ -8,4 +8,5 @@ modules =
     Data.List.DecIn,
     Data.List.TypeEnumeration,
     Data.Fin.Extensions,
-    Finiteness
+    Finiteness,
+    Permutation

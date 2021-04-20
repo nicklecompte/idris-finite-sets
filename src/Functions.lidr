@@ -67,3 +67,11 @@ $P y$. In NuPRL this is called "squash" so that is the name we will use here.
 
 Note that fromSquash can only ever accept a unit value since that is the only 
 value that is constructible.
+
+> ||| Simple helper for projecting the first part of a dependent pair.
+> proj1DP : (DPair a b) -> a
+> proj1DP (x ** y) = x
+
+> ||| Simple helper for projecting the second part of a dependent pair.
+> proj2DP : (x : (DPair a b)) -> b (proj1DP x)
+> proj2DP (x ** y) = y

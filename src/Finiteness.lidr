@@ -16,7 +16,8 @@ $xs$ satisfying $\texttt{All} \{t\} xs$.
 > Listable : (t : Type) -> Type
 > Listable t = (xs ** (All {t} xs))
 
-An alternative idea is to require a surjection Fin n to t for some Nat n:
+An alternative idea is to require a surjection $\texttt{Fin} n \rightarrow t$ 
+for some $n:\texttt{Nat}$:
 
 > FinSurjective : (t: Type) -> Type
 > FinSurjective ty = (n:Nat ** (fromFin : (Fin n -> ty) ** (Surjective fromFin)))
@@ -26,7 +27,7 @@ that these can be cleaned up considerably...
 
 > ||| If we have a proof that `x` is contained in the list `xs`, then we can map
 > ||| that proof to a `Fin (length xs)` in the obvious way.
-> getIndexOfElem : Elem x xs -> Fin (length xs)
+> getIndexOfElem : {x:t} -> Elem x xs -> Fin (length xs)
 > getIndexOfElem Here = FZ
 > getIndexOfElem (There later) = FS (getIndexOfElem later)
 
@@ -36,13 +37,18 @@ that these can be cleaned up considerably...
 > getIndexFromAll {xs = []} pf x = absurd (pf x)
 > getIndexFromAll {xs = (y :: xs)} pf x = getIndexOfElem (pf x)
 
+> allFinBijection : {t:Type} -> All {t} xs -> (f:(t-> Fin (length xs)) ** Bijective f)
+> allFinBijection pf = ((getIndexFromAll pf) ** (?tvalHole1,?tvalHole2))
+
+
+
 > ||| Index into a list `l` with a `Fin (length l).`
 > finIndexList : (l:List t) -> Fin (length l) -> t
 > finIndexList [] _ impossible
 > finIndexList (x :: _) FZ = x
 > finIndexList (_ :: xs) (FS y) = finIndexList xs y
 
-> getIndexOfElemLemma : (pf : Elem x xs) -> finIndexList xs (getIndexOfElem pf) = x
+> getIndexOfElemLemma : {x:t} -> (pf : Elem x xs) -> finIndexList xs (getIndexOfElem pf) = x
 > getIndexOfElemLemma {xs = (x :: ys)} Here = Refl
 > getIndexOfElemLemma {xs = (y :: ys)} (There later) = getIndexOfElemLemma later
 
@@ -56,6 +62,7 @@ that these can be cleaned up considerably...
 
 > indexIntoAll : All {t} xs -> (f : (Fin (length xs) -> t) ** Surjective f)
 > indexIntoAll {xs} pf = ((finIndexList xs) ** (finIndexListSurjectiveIfAll pf))
+
 > listableIsFinSurjective : Listable t -> FinSurjective t
 > listableIsFinSurjective (xs ** pf) = ((length xs) ** (indexIntoAll pf))
 
@@ -63,12 +70,6 @@ that these can be cleaned up considerably...
 > elemToFinIndex : {t : Type} -> (x:t  ** Elem x xs) -> Fin (length xs)
 > elemToFinIndex (_ ** Here) = FZ
 > elemToFinIndex ( x ** (There later)) = FS (elemToFinIndex (x ** later))
-
-> proj1DP : (DPair a b) -> a
-> proj1DP (x ** y) = x
-
-> proj2DP : (x : (DPair a b)) -> b (proj1DP x)
-> proj2DP (x ** y) = y
 
 > elemLemma : {y: t} -> (x ** Data.List.Elem x xs) -> (x ** Data.List.Elem x (y :: xs))
 > elemLemma (a ** pf) = (a ** (Data.List.There pf))
@@ -93,6 +94,9 @@ that these can be cleaned up considerably...
 > finIndexElemInverse1 (x :: xs) FZ = Refl
 > finIndexElemInverse1 (x :: xs) (FS y) = let subres2 = (finIndexElemInverse1 xs y) in (elemToFinIndexLemma x xs y subres2)
 
+> finIndexElemInverse2 : {x:t} -> (xs : List t) -> (elem : Elem x xs) -> finIndexToElem xs (elemToFinIndex (x**elem)) = (x**elem)
+> finIndexElemInverse2 (x::ys) Here = Refl
+> finIndexElemInverse2 {x} (y::ys) (There later) = ?finIndexElemInverse2Hole2
 
 > finSurjectiveIsListable : FinSurjective t -> Listable t
 > finSurjectiveIsListable (bound ** (surj ** pf)) = ?finSurjectiveIsListable_rhs_2
@@ -119,3 +123,6 @@ listability implies decidable equality:
 
 > listableToDecEq : {t:Type} -> Listable t -> (x: t) -> (y : t) -> Dec (x = y)
 > listableToDecEq (xs **pf) x y = ?listableToDecEq_rhs
+
+With this (along with the implication $\texttt{DecEq} \Rightarrow \texttt{DecIn}$)
+we can implement removal of duplicates.

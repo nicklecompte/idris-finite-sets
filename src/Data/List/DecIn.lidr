@@ -44,3 +44,28 @@ Note: perhaps this can be cleaned up a bit, it seems rather circuitous.
 >                               Here => contra (matchingSingleton Here)
 >                               (There t) => notLater t)
 >       decIn x (y::ys) | Yes later = Yes (There later)
+
+> ElementPreservingCorrespondence : DecIn t => List t -> List t -> Type
+> ElementPreservingCorrespondence xs ys = (x : t) -> (Elem x xs -> Elem x ys, Elem x ys -> Elem x xs)
+
+> ||| ElementPreservingCorrespondence is a reflexive relation on lists.
+> elementPreservingCorrespondenceReflexive : DecIn t => {xs : List t} -> ElementPreservingCorrespondence xs xs
+> elementPreservingCorrespondenceReflexive {xs=[]} _ = (\a => absurd a, \b => absurd b)
+> elementPreservingCorrespondenceReflexive {xs = (y::ys)} x = 
+>   case decIn x (y::ys) of
+>       Yes pf => (\a => pf,\b => pf)
+>       No contra => (\a => absurd (contra a), \b => absurd (contra b))
+
+> ||| ElementPreservingCorrespondence is a symmetric relation on lists.
+> elementPreservingCorrespondenceSymmetric : DecIn t => {xs,ys : List t} -> ElementPreservingCorrespondence xs ys -> ElementPreservingCorrespondence ys xs
+> elementPreservingCorrespondenceSymmetric pf x = (snd (pf x),fst (pf x))
+
+> ||| ElementPreservingCorrespondence is a transitive relation on lists.
+> elementPreservingCorrespondenceTransitive : 
+>       DecIn t => {xs,ys,zs : List t} -> 
+>       ElementPreservingCorrespondence xs ys -> 
+>       ElementPreservingCorrespondence ys zs ->
+>       ElementPreservingCorrespondence xs zs
+> elementPreservingCorrespondenceTransitive pf1 pf2 x = 
+>       ((fst (pf2 x)) . (fst (pf1 x)), (snd (pf1 x)) . (snd (pf2 x)))
+

@@ -1,5 +1,6 @@
 > module Data.List.TypeEnumeration
 > import Data.List
+> import Data.List.DecIn
 > import Functions
 > %access public export
 
@@ -100,3 +101,11 @@ is just a wrapper for "void can prove anything")
 >   deqEqToDupe (x :: xs) | No contra = case deqEqToDupe xs of
 >       Yes noDupes => Yes (consNoDupes noDupes contra)
 >       No areDupes => No (\c => areDupes (dupeCons c))
+
+Decidable list membership allows us to remove duplicates from a list:
+
+> ||| Given an input list `xs`, return a list `ys` satisfying the following:
+> ||| - `Elem y ys` has at most one element up to equality (`NoDupes ys`)
+> ||| - Given a proof `Elem x xs` (resp `Elem x ys`) we have a proof `Elem x ys`
+> ||| (resp `Elem x xs`) (`ElementPreservingCorrespondence xs ys`)
+> remDup : DecIn t => (xs : List t) -> (ys ** (NoDupes ys, ElementPreservingCorrespondence xs ys))
